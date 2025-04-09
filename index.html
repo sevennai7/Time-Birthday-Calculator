@@ -126,14 +126,15 @@
 
   <h1>Time Experience Calculator</h1>
   <label for="birthday">Enter your birthday:</label>
-  <input type="date" id="birthday"><br>
-  <button onclick="startExperience()">Calculate</button>
-  <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  <input type="date" id="birthday">
 
   <div class="result" id="results"></div>
 
   <script>
     let birthdayGlobal = null;
+
+    // Update time experience whenever the date is selected
+    document.getElementById('birthday').addEventListener('change', startExperience);
 
     function startExperience() {
       const birthdayInput = document.getElementById('birthday').value;
@@ -215,11 +216,6 @@
           ${stat("Rain Fallen (mm)", totalRain)}
         </div>
       `;
-    }
-
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-     requestAnimationFrame(updateAll);
     }
   </script>
 
