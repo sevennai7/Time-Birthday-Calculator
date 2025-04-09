@@ -126,98 +126,112 @@
 
   <h1>Time Experience Calculator</h1>
   <label for="birthday">Enter your birthday:</label>
-  <input type="date" id="birthday">
+  <input type="date" id="birthday"><br>
+  <button onclick="startExperience()">Calculate</button>
+  <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
   <div class="result" id="results"></div>
 
   <script>
-    let birthdayGlobal = null;
+  let birthdayGlobal = null;
+  let animating = false;
 
-    // Update time experience whenever the date is selected
-    document.getElementById('birthday').addEventListener('change', startExperience);
+  document.getElementById('birthday').addEventListener('change', startExperience);
 
-    function startExperience() {
-      const birthdayInput = document.getElementById('birthday').value;
-      const birthday = new Date(birthdayInput);
-      if (isNaN(birthday)) {
-        document.getElementById('results').innerHTML = "Please enter a valid date.";
-        return;
-      }
-      birthdayGlobal = birthday;
-      updateAll();
+  function startExperience() {
+    const birthdayInput = document.getElementById('birthday').value;
+    const birthday = new Date(birthdayInput);
+    if (isNaN(birthday)) {
+      document.getElementById('results').innerHTML = "Please enter a valid date.";
+      return;
     }
+    birthdayGlobal = birthday;
 
-    function stat(label, value) {
-      return `<div class="stat-line"><span>${label}</span><span>${value}</span></div>`;
+    if (!animating) {
+      animating = true;
+      requestAnimationFrame(updateAll);
     }
+  }
 
-    function updateAll() {
-      const now = new Date();
-      const msLived = now - birthdayGlobal;
-      const seconds = msLived / 1000;
-      const minutes = seconds / 60;
-      const hours = minutes / 60;
-      const days = hours / 24;
-      const years = days / 365.25;
-      const months = days / 30.44;
+  function stat(label, value) {
+    return `<div class="stat-line"><span>${label}</span><span>${value}</span></div>`;
+  }
 
-      const milliseconds = msLived.toLocaleString();
-      const breaths = Math.floor(minutes * 16).toLocaleString();
-      const mercuryYear = (days / 88).toFixed(2);
-      const venusYear = (days / 225).toFixed(2);
-      const marsYear = (days / 687).toFixed(2);
-      const jupiterYear = (days / 4333).toFixed(2);
-      const saturnYear = (days / 10759).toFixed(2);
-      const uranusYear = (days / 30687).toFixed(2);
-      const neptuneYear = (days / 60190).toFixed(2);
-      const lolYear = (days / 69420).toFixed(6);
-      const blinks = Math.floor(minutes * 20).toLocaleString();
-      const moonCycles = (days / 29.5).toFixed(2);
-      const heartbeats = Math.floor(minutes * 70).toLocaleString();
-      const sunrises = Math.floor(days);
-      const avgRainPerDay = 2.5;
-      const totalRain = Math.floor(days * avgRainPerDay).toLocaleString();
+  function updateAll() {
+    if (!birthdayGlobal) return;
 
-      document.getElementById('results').innerHTML = `
-        <div class="section">
-          <h3>Basic Time Stats</h3>
-          ${stat("Years", years.toFixed(2))}
-          ${stat("Months", months.toFixed(2))}
-          ${stat("Days", days.toFixed(2))}
-          ${stat("Hours", hours.toFixed(2))}
-          ${stat("Minutes", minutes.toFixed(2))}
-          ${stat("Seconds", seconds.toFixed(2))}
-          ${stat("Milliseconds", milliseconds)}
-        </div>
+    const now = new Date();
+    const msLived = now - birthdayGlobal;
+    const seconds = msLived / 1000;
+    const minutes = seconds / 60;
+    const hours = minutes / 60;
+    const days = hours / 24;
+    const years = days / 365.25;
+    const months = days / 30.44;
 
-        <div class="section">
-          <h3>Planetary Years</h3>
-          ${stat("Mercury Years", mercuryYear)}
-          ${stat("Venus Years", venusYear)}
-          ${stat("Mars Years", marsYear)}
-          ${stat("Jupiter Years", jupiterYear)}
-          ${stat("Saturn Years", saturnYear)}
-          ${stat("Uranus Years", uranusYear)}
-          ${stat("Neptune Years", neptuneYear)}
-          ${stat("lol Years (nice)", lolYear)}
-        </div>
+    const milliseconds = msLived.toLocaleString();
+    const breaths = Math.floor(minutes * 16).toLocaleString();
+    const mercuryYear = (days / 88).toFixed(2);
+    const venusYear = (days / 225).toFixed(2);
+    const marsYear = (days / 687).toFixed(2);
+    const jupiterYear = (days / 4333).toFixed(2);
+    const saturnYear = (days / 10759).toFixed(2);
+    const uranusYear = (days / 30687).toFixed(2);
+    const neptuneYear = (days / 60190).toFixed(2);
+    const lolYear = (days / 69420).toFixed(6);
+    const blinks = Math.floor(minutes * 20).toLocaleString();
+    const moonCycles = (days / 29.5).toFixed(2);
+    const heartbeats = Math.floor(minutes * 70).toLocaleString();
+    const sunrises = Math.floor(days);
+    const avgRainPerDay = 2.5;
+    const totalRain = Math.floor(days * avgRainPerDay).toLocaleString();
 
-        <div class="section">
-          <h3>Biological Stats</h3>
-          ${stat("Total Heartbeats", heartbeats)}
-          ${stat("Total Breaths (P.S: You're still breathing.)", breaths)}
-          ${stat("Total Blinks", blinks)}
-        </div>
+    document.getElementById('results').innerHTML = `
+      <div class="section">
+        <h3>Basic Time Stats</h3>
+        ${stat("Years", years.toFixed(2))}
+        ${stat("Months", months.toFixed(2))}
+        ${stat("Days", days.toFixed(2))}
+        ${stat("Hours", hours.toFixed(2))}
+        ${stat("Minutes", minutes.toFixed(2))}
+        ${stat("Seconds", seconds.toFixed(2))}
+        ${stat("Milliseconds", milliseconds)}
+      </div>
 
-        <div class="section">
-          <h3>Cosmic & Earth Events</h3>
-          ${stat("Moon Phases Passed", moonCycles)}
-          ${stat("Sunrises Seen", sunrises)}
-          ${stat("Rain Fallen (mm)", totalRain)}
-        </div>
-      `;
-    }
+      <div class="section">
+        <h3>Planetary Years</h3>
+        ${stat("Mercury Years", mercuryYear)}
+        ${stat("Venus Years", venusYear)}
+        ${stat("Mars Years", marsYear)}
+        ${stat("Jupiter Years", jupiterYear)}
+        ${stat("Saturn Years", saturnYear)}
+        ${stat("Uranus Years", uranusYear)}
+        ${stat("Neptune Years", neptuneYear)}
+        ${stat("lol Years (nice)", lolYear)}
+      </div>
+
+      <div class="section">
+        <h3>Biological Stats</h3>
+        ${stat("Total Heartbeats", heartbeats)}
+        ${stat("Total Breaths (P.S: You're still breathing.)", breaths)}
+        ${stat("Total Blinks", blinks)}
+      </div>
+
+      <div class="section">
+        <h3>Cosmic & Earth Events</h3>
+        ${stat("Moon Phases Passed", moonCycles)}
+        ${stat("Sunrises Seen", sunrises)}
+        ${stat("Rain Fallen (mm)", totalRain)}
+      </div>
+    `;
+
+    // Keep updating
+    requestAnimationFrame(updateAll);
+  }
+
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+  }
   </script>
-
 </body>
 </html>
