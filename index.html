@@ -3,11 +3,42 @@
 <head>
   <title>Time Experience Calculator</title>
   <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f0f8ff; }
-    h1 { color: #333; }
-    input, button { padding: 0.5rem; margin: 0.5rem 0; font-size: 1rem; }
-    .result { margin-top: 1rem; }
-    .live { font-family: monospace; color: #444; margin-top: 1rem; background: #e0f7fa; padding: 1rem; border-radius: 0.5rem; }
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #e6f3f8;
+      color: #222;
+    }
+    h1 {
+      color: #111;
+      margin-bottom: 1rem;
+    }
+    input, button {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+    }
+    .result {
+      margin-top: 2rem;
+      background: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .section {
+      margin-top: 1.5rem;
+    }
+    .section h3 {
+      border-bottom: 2px solid #ccc;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.25rem;
+    }
+    .stat-line {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.25rem 0;
+      font-family: monospace;
+    }
   </style>
 </head>
 <body>
@@ -33,6 +64,10 @@
       updateAll();
     }
 
+    function stat(label, value) {
+      return `<div class="stat-line"><span>${label}</span><span>${value}</span></div>`;
+    }
+
     function updateAll() {
       const now = new Date();
       const msLived = now - birthdayGlobal;
@@ -43,51 +78,63 @@
       const years = days / 365.25;
       const months = days / 30.44;
 
-      const milliseconds = msLived.toLocaleString(undefined, { maximumFractionDigits: 0 });
+      const milliseconds = msLived.toLocaleString();
       const breaths = Math.floor(minutes * 16).toLocaleString();
-      const mercuryYear = (days / 88).toFixed(4);
-      const venusYear = (days / 225).toFixed(4);
-      const marsYear = (days / 687).toFixed(4);
-      const jupiterYear = (days / 4333).toFixed(4);
-      const saturnYear = (days / 10759).toFixed(4);
-      const uranusYear = (days / 30687).toFixed(4);
-      const neptuneYear = (days / 60190).toFixed(4);
+      const mercuryYear = (days / 88).toFixed(2);
+      const venusYear = (days / 225).toFixed(2);
+      const marsYear = (days / 687).toFixed(2);
+      const jupiterYear = (days / 4333).toFixed(2);
+      const saturnYear = (days / 10759).toFixed(2);
+      const uranusYear = (days / 30687).toFixed(2);
+      const neptuneYear = (days / 60190).toFixed(2);
       const lolYear = (days / 69420).toFixed(6);
       const blinks = Math.floor(minutes * 20).toLocaleString();
-      const moonCycles = (days / 29.5).toFixed(4);
+      const moonCycles = (days / 29.5).toFixed(2);
       const heartbeats = Math.floor(minutes * 70).toLocaleString();
       const sunrises = Math.floor(days);
       const avgRainPerDay = 2.5;
       const totalRain = Math.floor(days * avgRainPerDay).toLocaleString();
 
       document.getElementById('results').innerHTML = `
-        <h2>Your Time Experience</h2>
-        <p><strong>Years:</strong> ${years.toFixed(9)}</p>
-        <p><strong>Months:</strong> ${months.toFixed(9)}</p>
-        <p><strong>Days:</strong> ${days.toFixed(9)}</p>
-        <p><strong>Hours:</strong> ${hours.toFixed(9)}</p>
-        <p><strong>Minutes:</strong> ${minutes.toFixed(9)}</p>
-        <p><strong>Seconds:</strong> ${seconds.toFixed(9)}</p>
-        <p><strong>Milliseconds:</strong> ${milliseconds}</p>
-        <hr>
-        <p><strong>Mercury Years:</strong> ${mercuryYear}</p>
-        <p><strong>Venus Years:</strong> ${venusYear}</p>
-        <p><strong>Mars Years:</strong> ${marsYear}</p>
-        <p><strong>Jupiter Years:</strong> ${jupiterYear}</p>
-        <p><strong>Saturn Years:</strong> ${saturnYear}</p>
-        <p><strong>Uranus Years:</strong> ${uranusYear}</p>
-        <p><strong>Neptune Years:</strong> ${neptuneYear}</p>
-        <p><strong>lol Years (nice):</strong> ${lolYear}</p>
-        <hr>
-        <p><strong>Moon Phases Passed:</strong> ${moonCycles}</p>
-        <p><strong>Total Heartbeats:</strong> ${heartbeats}</p>
-        <p><strong>Total Breaths (P.S: You're still breathing.):</strong> ${breaths}</p>
-        <p><strong>Total Blinks:</strong> ${blinks}</p>
-        <p><strong>Sunrises Seen:</strong> ${sunrises}</p>
-        <p><strong>Rain Fallen on Earth since your birth (mm):</strong> ${totalRain}</p>
+        <div class="section">
+          <h3>Basic Time Stats</h3>
+          ${stat("Years", years.toFixed(2))}
+          ${stat("Months", months.toFixed(2))}
+          ${stat("Days", days.toFixed(2))}
+          ${stat("Hours", hours.toFixed(2))}
+          ${stat("Minutes", minutes.toFixed(2))}
+          ${stat("Seconds", seconds.toFixed(2))}
+          ${stat("Milliseconds", milliseconds)}
+        </div>
+
+        <div class="section">
+          <h3>Planetary Years</h3>
+          ${stat("Mercury Years", mercuryYear)}
+          ${stat("Venus Years", venusYear)}
+          ${stat("Mars Years", marsYear)}
+          ${stat("Jupiter Years", jupiterYear)}
+          ${stat("Saturn Years", saturnYear)}
+          ${stat("Uranus Years", uranusYear)}
+          ${stat("Neptune Years", neptuneYear)}
+          ${stat("lol Years (nice)", lolYear)}
+        </div>
+
+        <div class="section">
+          <h3>Biological Stats</h3>
+          ${stat("Total Heartbeats", heartbeats)}
+          ${stat("Total Breaths (P.S: You're still breathing.)", breaths)}
+          ${stat("Total Blinks", blinks)}
+        </div>
+
+        <div class="section">
+          <h3>Cosmic & Earth Events</h3>
+          ${stat("Moon Phases Passed", moonCycles)}
+          ${stat("Sunrises Seen", sunrises)}
+          ${stat("Rain Fallen (mm)", totalRain)}
+        </div>
       `;
 
-      requestAnimationFrame(updateAll); // live update loop (fast & smooth)
+      requestAnimationFrame(updateAll);
     }
   </script>
 
